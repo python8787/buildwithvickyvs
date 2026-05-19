@@ -62,22 +62,25 @@ function Snake() {
 
   useEffect(() => {
     if (!going || over) return;
+    const speed = Math.max(60, 200 - score * 8);
     const id = setInterval(() => {
       const s = st.current;
       s.dir = s.next;
       const h = { ...s.snake[0] };
       if (s.dir === "UP") h.y--; else if (s.dir === "DOWN") h.y++;
       else if (s.dir === "LEFT") h.x--; else h.x++;
-      if (h.x < 0 || h.x >= G || h.y < 0 || h.y >= G || s.snake.some((b) => b.x === h.x && b.y === h.y)) {
+      h.x = ((h.x % G) + G) % G;
+      h.y = ((h.y % G) + G) % G;
+      if (s.snake.some((b) => b.x === h.x && b.y === h.y)) {
         setOver(true); setBest((b) => Math.max(b, s.score)); return;
       }
       const ate = h.x === s.food.x && h.y === s.food.y;
       s.snake = [h, ...s.snake.slice(0, ate ? undefined : -1)];
       if (ate) { s.score++; setScore(s.score); s.food = rand(s.snake); }
       draw();
-    }, 115);
+    }, speed);
     return () => clearInterval(id);
-  }, [going, over, draw]);
+  }, [going, over, draw, score]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
