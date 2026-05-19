@@ -1,0 +1,81 @@
+version: "3.9"
+
+# Local dev stack — hot reload for both frontend and backend.
+#
+# Usage:
+#   docker-compose up --build     (first time)
+#   docker-compose up             (after that)
+#   docker-compose down           (stop)
+#   docker-compose down -v        (stop + wipe DB)
+#
+# Ports:
+#   Frontend  → http://localhost:3000
+#   Backend   → http://localhost:8000
+#   Postgres  → localhost:5432
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: vickyvs_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: vickyvs_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: vickyvs_backend
+    restart: unless-stopped
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      APP_ENV: development
+      DEBUG: "true"
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/vickyvs_db
+      JWT_SECRET: dev-only-secret-change-in-production
+      ALLOWED_ORIGINS: '["http://localhost:3000"]'
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: vickyvs_frontend
+    restart: unless-stopped
+    command: npm run dev
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
