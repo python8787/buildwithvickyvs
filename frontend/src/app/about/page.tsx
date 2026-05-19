@@ -1,134 +1,148 @@
 import type { Metadata } from "next";
-import { MapPin, Briefcase, GraduationCap, Github, Linkedin, Mail } from "lucide-react";
+import Link from "next/link";
+import {
+  Terminal, Layers, BookOpen, Wrench, Gamepad2,
+  FlaskConical, User, Rocket, Github,
+} from "lucide-react";
 
-export const metadata: Metadata = { title: "About" };
+export const metadata: Metadata = { title: "About – buildwithvickyvs.ai" };
 
-const EXPERIENCE = [
+const PAGES = [
   {
-    role: "Full-Stack Developer",
-    company: "Self / Freelance",
-    period: "2023 – Present",
-    desc: "Building AI-powered products, tools, and personal projects full-time.",
+    icon: Layers,
+    href: "/projects",
+    label: "Projects",
+    desc: "A showcase of things built — personal tools, AI experiments, side products, and open-source work. Each entry covers what it does, why it was built, and the tech behind it.",
   },
   {
-    role: "Backend Developer",
-    company: "Previous Company",
-    period: "2021 – 2023",
-    desc: "Python/FastAPI microservices, REST APIs, PostgreSQL, CI/CD pipelines.",
+    icon: BookOpen,
+    href: "/blog",
+    label: "Devlog",
+    desc: "A running journal of builds, decisions, bugs, and lessons. Less polished article, more honest log of what it actually looks like to ship things.",
+  },
+  {
+    icon: Wrench,
+    href: "/ai-tools",
+    label: "AI Tools",
+    desc: "Live, usable AI-powered utilities built on top of LLMs and APIs. Things that solve real problems — text processing, data extraction, smart assistants, and more.",
+  },
+  {
+    icon: Gamepad2,
+    href: "/games",
+    label: "Games",
+    desc: "Mini games built from scratch — Snake, typing speed tests, memory match, and code puzzles. A low-stakes space to experiment with canvas, state, and interactivity.",
+  },
+  {
+    icon: FlaskConical,
+    href: "/playground",
+    label: "Playground",
+    desc: "Rough demos, UI experiments, and proof-of-concept ideas that aren't ready for the Projects page yet. Work in progress, always.",
+  },
+  {
+    icon: User,
+    href: "/profile",
+    label: "Profile",
+    desc: "Vignesh's professional background — work experience, skills, education, certifications, and a downloadable resume. The person behind the site.",
   },
 ];
 
-const EDUCATION = [
-  { degree: "B.E. Computer Science", school: "Your University", year: "2021" },
-];
-
-const INTERESTS = [
-  "AI / ML engineering", "Developer tooling", "Open source",
-  "Building in public", "System design", "Indie hacking",
-];
-
-const TECH = [
-  "Python", "TypeScript", "Next.js", "FastAPI",
-  "PostgreSQL", "Docker", "OpenAI API", "LangChain",
+const STACK = [
+  { layer: "Frontend",  items: ["Next.js 14", "TypeScript", "Tailwind CSS"] },
+  { layer: "Backend",   items: ["FastAPI", "Python", "PostgreSQL"] },
+  { layer: "AI",        items: ["OpenAI API", "LangChain", "Hugging Face"] },
+  { layer: "Infra",     items: ["Docker", "AWS", "Vercel"] },
 ];
 
 export default function AboutPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+
+      {/* Header */}
       <div className="mb-12">
-        <p className="section-label mb-2">About</p>
-        <h1 className="section-title">Hey, I&apos;m Vicky 👋</h1>
+        <p className="section-label mb-2">About this site</p>
+        <h1 className="section-title">buildwithvickyvs.ai</h1>
+        <p className="mt-4 text-lg leading-relaxed" style={{ color: "var(--text-muted)" }}>
+          A living digital lab — built to ship things, learn in public, and keep everything in one place.
+        </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-10">
-        {/* Bio column */}
-        <div className="md:col-span-2 space-y-6">
-          <p className="leading-relaxed" style={{ color: "var(--text)" }}>
-            I&apos;m a full-stack developer focused on AI tools and developer experiences.
-            I built <strong style={{ color: "var(--brand)" }}>buildwithvickyvs.ai</strong> as a
-            living digital lab — a place to ship things, learn in public, and collect everything I build.
+      {/* Why */}
+      <div className="card p-7 mb-10">
+        <div className="flex items-center gap-2 mb-4">
+          <Rocket size={15} style={{ color: "var(--brand)" }} />
+          <p className="section-label">Why this site exists</p>
+        </div>
+        <div className="space-y-3" style={{ color: "var(--text)" }}>
+          <p className="leading-relaxed">
+            Most portfolios are static. A list of past work, a few links, a contact form.
+            This site is different — it&apos;s meant to be used, not just browsed.
           </p>
           <p className="leading-relaxed" style={{ color: "var(--text-muted)" }}>
-            My stack is Python, TypeScript, Next.js, FastAPI, and PostgreSQL. I&apos;m interested in making
-            AI practical and accessible through well-designed tools. When I&apos;m not coding,
-            I&apos;m writing devlogs, playing games I built, or reading about system design.
+            Every page is a working product: real AI tools, playable games, an honest devlog.
+            The goal is to build useful things in public and document the process honestly —
+            including the parts that don&apos;t work first time.
           </p>
-
-          {/* Experience */}
-          <div className="pt-4">
-            <div className="flex items-center gap-2 mb-4">
-              <Briefcase size={14} style={{ color: "var(--brand)" }} />
-              <p className="section-label">Experience</p>
-            </div>
-            <div className="space-y-3">
-              {EXPERIENCE.map((e) => (
-                <div key={e.role} className="card p-4">
-                  <div className="flex items-start justify-between gap-4 mb-1">
-                    <span className="font-semibold text-sm" style={{ color: "var(--text-bright)" }}>{e.role}</span>
-                    <span className="text-xs flex-shrink-0" style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>{e.period}</span>
-                  </div>
-                  <p className="text-xs mb-1 text-teal-400">{e.company}</p>
-                  <p className="text-sm" style={{ color: "var(--text-muted)" }}>{e.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Education */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <GraduationCap size={14} style={{ color: "var(--brand)" }} />
-              <p className="section-label">Education</p>
-            </div>
-            {EDUCATION.map((e) => (
-              <div key={e.degree} className="card p-4">
-                <p className="font-semibold text-sm" style={{ color: "var(--text-bright)" }}>{e.degree}</p>
-                <p className="text-xs text-teal-400 mt-0.5">{e.school} · {e.year}</p>
-              </div>
-            ))}
-          </div>
+          <p className="leading-relaxed" style={{ color: "var(--text-muted)" }}>
+            It&apos;s also a technical playground. The stack, the design, the backend — all of it
+            is built and maintained by{" "}
+            <Link href="/profile" className="text-teal-400 hover:underline">Vignesh Udhayakumar</Link>,
+            a backend and AI engineer based in Bangalore.
+          </p>
         </div>
+      </div>
 
-        {/* Sidebar */}
-        <div className="space-y-5">
-          <div className="card p-5 space-y-3">
-            {[
-              { icon: MapPin, text: "India" },
-              { icon: Briefcase, text: "Full-Stack + AI" },
-            ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-2.5 text-sm" style={{ color: "var(--text-muted)" }}>
-                <Icon size={14} className="text-teal-400 flex-shrink-0" />
-                {text}
-              </div>
-            ))}
-          </div>
-
-          <div className="card p-5">
-            <p className="section-label mb-3">Core Tech</p>
-            <div className="flex flex-wrap gap-1.5">
-              {TECH.map((t) => <span key={t} className="tag">{t}</span>)}
-            </div>
-          </div>
-
-          <div className="card p-5">
-            <p className="section-label mb-3">Interests</p>
-            <div className="flex flex-wrap gap-1.5">
-              {INTERESTS.map((i) => <span key={i} className="tag">{i}</span>)}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <a href="https://github.com/vickyvs" target="_blank" rel="noopener noreferrer" className="btn-ghost justify-center text-sm">
-              <Github size={14} /> GitHub
-            </a>
-            <a href="https://linkedin.com/in/vickyvs" target="_blank" rel="noopener noreferrer" className="btn-ghost justify-center text-sm">
-              <Linkedin size={14} /> LinkedIn
-            </a>
-            <a href="mailto:hello@buildwithvickyvs.ai" className="btn-primary justify-center text-sm">
-              <Mail size={14} /> Say Hello
-            </a>
-          </div>
+      {/* Pages */}
+      <div className="mb-10">
+        <div className="flex items-center gap-2 mb-5">
+          <Terminal size={14} style={{ color: "var(--brand)" }} />
+          <p className="section-label">What&apos;s inside</p>
         </div>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {PAGES.map(({ icon: Icon, href, label, desc }) => (
+            <Link key={href} href={href} className="card p-5 hover:border-teal-400/30 transition-colors group">
+              <div className="flex items-center gap-2 mb-2">
+                <Icon size={14} className="text-teal-400" />
+                <span
+                  className="font-semibold text-sm group-hover:text-teal-400 transition-colors"
+                  style={{ color: "var(--text-bright)" }}
+                >
+                  {label}
+                </span>
+              </div>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{desc}</p>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Stack */}
+      <div className="card p-7 mb-10">
+        <p className="section-label mb-5">Tech stack</p>
+        <div className="grid sm:grid-cols-2 gap-5">
+          {STACK.map(({ layer, items }) => (
+            <div key={layer}>
+              <p className="text-xs font-medium text-teal-400 mb-2">{layer}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {items.map((t) => <span key={t} className="tag">{t}</span>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer CTA */}
+      <div className="flex flex-wrap gap-3">
+        <a
+          href="https://github.com/python8787"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-ghost text-sm gap-2"
+        >
+          <Github size={14} /> View on GitHub
+        </a>
+        <Link href="/profile" className="btn-primary text-sm gap-2">
+          <User size={14} /> Meet the builder
+        </Link>
       </div>
     </div>
   );

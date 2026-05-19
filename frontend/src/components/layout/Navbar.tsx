@@ -3,13 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, Terminal } from "lucide-react";
+import { Menu, X, Terminal, UserCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "/",           label: "Home" },
   { href: "/about",      label: "About" },
-  { href: "/profile",    label: "Profile" },
   { href: "/projects",   label: "Projects" },
   { href: "/blog",       label: "Devlog" },
   { href: "/ai-tools",   label: "AI Tools" },
@@ -61,15 +60,29 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* GitHub CTA */}
-          <a
-            href="https://github.com/vickyvs"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-ghost hidden md:inline-flex text-xs py-2 px-4"
-          >
-            GitHub
-          </a>
+          {/* Right side: GitHub + Profile */}
+          <div className="hidden md:flex items-center gap-2">
+            <a
+              href="https://github.com/python8787"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost text-xs py-2 px-4"
+            >
+              GitHub
+            </a>
+            <Link
+              href="/profile"
+              title="Profile"
+              className={cn(
+                "p-2 rounded-lg transition-all duration-200",
+                isActive("/profile")
+                  ? "text-teal-400 bg-teal-400/10"
+                  : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+              )}
+            >
+              <UserCircle size={20} />
+            </Link>
+          </div>
 
           {/* Mobile toggle */}
           <button
@@ -85,7 +98,7 @@ export function Navbar() {
       {/* Mobile menu */}
       {open && (
         <div className="md:hidden border-t px-4 py-3 space-y-1" style={{ borderColor: "var(--border)" }}>
-          {LINKS.map(({ href, label }) => (
+          {[...LINKS, { href: "/profile", label: "Profile" }].map(({ href, label }) => (
             <Link
               key={href}
               href={href}
