@@ -1,26 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap');
 
 :root {
   --font-display: 'Syne', system-ui;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --brand:       #14b8a6;
-  --brand-dim:   rgba(20, 184, 166, 0.12);
-  --brand-glow:  rgba(20, 184, 166, 0.35);
-  --brand-border:rgba(20, 184, 166, 0.25);
+  --brand:        #14b8a6;
+  --brand-dim:    rgba(20, 184, 166, 0.12);
+  --brand-glow:   rgba(20, 184, 166, 0.35);
+  --brand-border: rgba(20, 184, 166, 0.25);
 
-  --bg:          #090e1a;
-  --bg-card:     #0f1623;
-  --bg-hover:    #141e2e;
-  --border:      rgba(255, 255, 255, 0.07);
+  --bg:           #090e1a;
+  --bg-card:      #0f1623;
+  --bg-hover:     #141e2e;
+  --border:       rgba(255, 255, 255, 0.07);
 
-  --text:        #cbd5e1;
-  --text-muted:  #475569;
-  --text-bright: #f1f5f9;
+  --text:         #cbd5e1;
+  --text-muted:   #475569;
+  --text-bright:  #f1f5f9;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -83,11 +83,15 @@ body {
     border: none;
   }
   .btn-primary:hover {
-    background: var(--brand-600, #0d9488);
+    background: #0d9488;
     box-shadow: 0 0 24px var(--brand-glow);
     transform: translateY(-1px);
   }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
 
   .btn-ghost {
     display: inline-flex;
